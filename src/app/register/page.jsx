@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
-import { register, reset } from '../features/auth/authSlice';
+import { register, reset } from '@/features/auth/authSlice';
 import { toast } from 'react-toastify';
 import Link from 'next/link';
 
