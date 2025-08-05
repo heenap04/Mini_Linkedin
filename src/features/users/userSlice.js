@@ -1,8 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import { API_ENDPOINTS } from '../../config';
 
 // API URL
-const API_URL = 'http://localhost:5000/api/users';
+const API_URL = API_ENDPOINTS.USERS;
 
 // Async thunks
 // Get user by ID
@@ -10,7 +12,7 @@ export const getOtherUser = createAsyncThunk(
   'users/getOtherUser',
   async (userId, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`${API_URL}/${userId}`);
+      const { data } = await axios.get(`${API_ENDPOINTS.USERS}/${userId}`);
       return data;
     } catch (error) {
       return rejectWithValue(
@@ -23,7 +25,7 @@ export const getOtherUser = createAsyncThunk(
 // Update user profile
 export const updateProfile = createAsyncThunk(
   'users/updateProfile',
-  async ({ userId, formData }, { rejectWithValue, getState }) => {
+  async ({ userId, name, email, bio }, { rejectWithValue, getState }) => {
     try {
       const { auth } = getState();
 
@@ -35,8 +37,8 @@ export const updateProfile = createAsyncThunk(
       };
 
       const { data } = await axios.put(
-        `${API_URL}/${userId}`,
-        formData,
+        `${API_ENDPOINTS.USERS}/${userId}`,
+        { name, email, bio },
         config
       );
 

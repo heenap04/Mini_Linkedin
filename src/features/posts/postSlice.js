@@ -1,8 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import { API_ENDPOINTS } from '../../config';
 
 // API URL
-const API_URL = 'http://localhost:5000/api/posts';
+const API_URL = API_ENDPOINTS.POSTS;
 
 // Async thunks
 // Create post
@@ -20,7 +22,7 @@ export const createPost = createAsyncThunk(
       };
 
       const { data } = await axios.post(
-        API_URL,
+        API_ENDPOINTS.POSTS,
         { content },
         config
       );
@@ -39,7 +41,7 @@ export const getPosts = createAsyncThunk(
   'posts/getPosts',
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(API_URL);
+      const { data } = await axios.get(API_ENDPOINTS.POSTS);
       return data;
     } catch (error) {
       return rejectWithValue(
@@ -54,7 +56,7 @@ export const getUserPosts = createAsyncThunk(
   'posts/getUserPosts',
   async (userId, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`${API_URL}/user/${userId}`);
+      const { data } = await axios.get(`${API_ENDPOINTS.POSTS}/user/${userId}`);
       return data;
     } catch (error) {
       return rejectWithValue(
@@ -77,7 +79,7 @@ export const deletePost = createAsyncThunk(
         },
       };
 
-      await axios.delete(`${API_URL}/${postId}`, config);
+      await axios.delete(`${API_ENDPOINTS.POSTS}/${postId}`, config);
 
       return postId;
     } catch (error) {
@@ -102,7 +104,7 @@ export const likePost = createAsyncThunk(
       };
 
       const { data } = await axios.put(
-        `${API_URL}/like/${postId}`,
+        `${API_ENDPOINTS.POSTS}/like/${postId}`,
         {},
         config
       );
@@ -130,7 +132,7 @@ export const unlikePost = createAsyncThunk(
       };
 
       const { data } = await axios.put(
-        `${API_URL}/unlike/${postId}`,
+        `${API_ENDPOINTS.POSTS}/unlike/${postId}`,
         {},
         config
       );
